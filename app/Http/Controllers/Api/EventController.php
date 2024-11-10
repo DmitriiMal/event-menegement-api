@@ -15,7 +15,7 @@ class EventController extends Controller
      */
     public function index()
     {
-        return EventResource::collection(Event::all());
+        return EventResource::collection(Event::with('user')->get());
     }
 
     /**
@@ -39,9 +39,10 @@ class EventController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Event $event)
     {
-        return new EventResource(Event::findOrFail($id));
+        $event->load('user');
+        return new EventResource($event);
     }
 
     /**
