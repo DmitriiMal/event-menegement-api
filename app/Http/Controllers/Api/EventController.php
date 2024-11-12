@@ -18,14 +18,10 @@ class EventController extends Controller
 
     public function index()
     {
-        // $relations = ['user', 'attendees', 'attendees.user'];
         $query = $this->loadRelationships(Event::query());
-
-
 
         return EventResource::collection(
             $query->latest()->paginate(5)
-            // Event::with('user')->latest()->paginate(5)
         );
     }
 
