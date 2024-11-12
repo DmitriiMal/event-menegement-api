@@ -13,29 +13,37 @@ class AttendeeController extends Controller
 {
     use CanLoadRelationships;
 
-    private array $relations = ['user', 'event', 'event.user'];
+    private array $relations = ['user'];
 
-    public function index()
+    public function index(Event $event)
     {
 
-        $query = $this->loadRelationships(Attendee::query());
+        $attendees = $this->loadRelationships(
+            $event->attendees()->latest()
+        );
+
         return AttendeeResource::collection(
-            $query->latest()->paginate(5)
+            $attendees->paginate(5)
         );
     }
 
     public function store(Request $request, Event $event)
     {
-        $attendee = $event->attendees()->create([
-            'user_id' => 1
-        ]);
 
-        return new AttendeeResource($this->loadRelationships($attendee));
+        $attendee = $this->loadRelationships(
+            $event->attendees()->create([
+                'user_id' => 1
+            ])
+        );
+
+        return new AttendeeResource($attendee);
     }
 
     public function show(Event $event, Attendee $attendee)
     {
-        return new AttendeeResource($this->loadRelationships($attendee));
+        return new AttendeeResource(
+            $this->loadRelationships($attendee)
+        );
     }
 
     public function update(Request $request, string $id)
