@@ -52,7 +52,7 @@ class EventController extends Controller
     public function update(Request $request, Event $event)
     {
 
-
+        // Gate with acustom message
         // if (Gate::denies('update-event', $event)) {
         //     abort(403, 'You are not authorized to update this event.');
         // }
