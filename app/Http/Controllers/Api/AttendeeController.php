@@ -52,11 +52,6 @@ class AttendeeController extends Controller
         );
     }
 
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
     public function destroy(Event $event, Attendee $attendee)
     {
         // Gate::authorize('delete-attendee', [$event, $attendee]);
